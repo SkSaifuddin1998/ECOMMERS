@@ -1,0 +1,26 @@
+package com.nt.ecom.user;
+
+public enum Permission {
+
+    CREATE_BRANCH,
+
+    CREATE_DEPARTMENT,
+
+    CREATE_EMPLOYEE,
+
+    VIEW_EMPLOYEE,
+
+    DELETE_EMPLOYEE,
+
+    HR_ACCESS,
+
+    SALES_ACCESS,
+
+    FINANCE_ACCESS,
+
+    INVENTORY_ACCESS,
+
+    DELIVERY_ACCESS,
+
+    SUPPORT_ACCESS
+}
