@@ -5,59 +5,79 @@ import java.util.Map;
 
 import com.erp.inventory.product.Product;
 
+// =======================================================
+// BRANCH INVENTORY
+// =======================================================
+
 public class BranchInventory {
 
-	private String branchName;
+	private Branch branch;
 
-	private Map<String, Integer> localInventory = new HashMap<>();
+	// PRODUCT ID -> INVENTORY ITEM
+	private Map<String, InventoryItem> inventory = new HashMap<>();
 
 	private InventoryObserver observer;
 
-	public BranchInventory(String branchName, InventoryObserver observer) {
+	public BranchInventory(Branch branch, InventoryObserver observer) {
 
-		this.branchName = branchName;
+		this.branch = branch;
 		this.observer = observer;
 	}
 
+	// ADD STOCK
 	public void addStock(Product product, int quantity) {
 
-		localInventory.put(product.getProductName(),
+		InventoryItem item = inventory.get(product.getProductId());
 
-				localInventory.getOrDefault(product.getProductName(), 0) + quantity);
+		if (item == null) {
 
-		System.out.println(branchName + " Added Stock : " + product.getProductName() + " Qty : " + quantity);
+			item = new InventoryItem(product, quantity);
 
-		observer.update(branchName, product, quantity);
-	}
+			inventory.put(product.getProductId(), item);
 
-	public void removeStock(Product product, int quantity) {
-
-		int currentQty = localInventory.getOrDefault(product.getProductName(), 0);
-
-		if (currentQty >= quantity) {
-
-			localInventory.put(product.getProductName(), currentQty - quantity);
-
-			System.out.println(branchName + " Removed Stock : " + product.getProductName() + " Qty : " + quantity);
-
-			observer.update(branchName, product, -quantity);
 		} else {
 
-			System.out.println("Insufficient Stock in " + branchName);
+			item.addQuantity(quantity);
+		}
+
+		observer.update(branch.getBranchName(), product, quantity);
+
+		System.out.println("\nSTOCK ADDED :: " + product.getProductName() + " Qty : " + quantity);
+	}
+
+	// REMOVE STOCK
+	public void removeStock(Product product, int quantity) {
+
+		InventoryItem item = inventory.get(product.getProductId());
+
+		if (item != null && item.getQuantity() >= quantity) {
+
+			item.removeQuantity(quantity);
+
+			observer.update(branch.getBranchName(), product, -quantity);
+
+			System.out.println("\nSTOCK REMOVED :: " + product.getProductName() + " Qty : " + quantity);
+
+		} else {
+
+			System.out.println("\nINSUFFICIENT STOCK");
 		}
 	}
 
-	public void showLocalInventory() {
+	// SHOW INVENTORY
+	public void showInventory() {
 
-		System.out.println("\nLOCAL INVENTORY : " + branchName);
+		System.out.println("\n===== " + branch.getBranchName() + " INVENTORY =====");
 
-		for (Map.Entry<String, Integer> entry : localInventory.entrySet()) {
+		for (InventoryItem item : inventory.values()) {
 
-			System.out.println(entry.getKey() + " : " + entry.getValue());
+			System.out.println("Product : " + item.getProduct().getProductName());
+
+			System.out.println("Category : " + item.getProduct().getCategory().categoryName);
+
+			System.out.println("Quantity : " + item.getQuantity());
+
+			System.out.println("--------------------------");
 		}
-	}
-
-	public String getBranchName() {
-		return branchName;
 	}
 }

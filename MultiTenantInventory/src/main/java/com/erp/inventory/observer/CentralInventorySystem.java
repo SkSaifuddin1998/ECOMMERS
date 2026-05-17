@@ -1,4 +1,9 @@
 package com.erp.inventory.observer;
+// =======================================================
+
+// SINGLETON DESIGN PATTERN
+// CENTRAL INVENTORY SYSTEM
+// =======================================================
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +14,7 @@ public class CentralInventorySystem implements InventoryObserver {
 
 	private static CentralInventorySystem instance;
 
+	// PRODUCT -> TOTAL QUANTITY
 	private Map<String, Integer> globalInventory = new HashMap<>();
 
 	private CentralInventorySystem() {
@@ -26,23 +32,26 @@ public class CentralInventorySystem implements InventoryObserver {
 	@Override
 	public void update(String branchName, Product product, int quantity) {
 
-		globalInventory.put(product.getProductName(),
+		globalInventory.put(product.getProductId(),
 
-				globalInventory.getOrDefault(product.getProductName(), 0) + quantity);
+				globalInventory.getOrDefault(product.getProductId(), 0) + quantity);
 
-		System.out.println("CENTRAL INVENTORY UPDATED :: " + branchName + " -> " + product.getProductName() + " Qty : "
-				+ quantity);
+		System.out.println("\nCENTRAL INVENTORY UPDATED");
+
+		System.out.println("Branch : " + branchName);
+
+		System.out.println("Product : " + product.getProductName());
+
+		System.out.println("Quantity : " + quantity);
 	}
 
 	public void showGlobalInventory() {
 
-		System.out.println("\nGLOBAL INVENTORY");
+		System.out.println("\n===== GLOBAL INVENTORY =====");
 
 		for (Map.Entry<String, Integer> entry : globalInventory.entrySet()) {
 
-			System.out.println(entry.getKey() + " : " + entry.getValue());
+			System.out.println("Product Id : " + entry.getKey() + " Quantity : " + entry.getValue());
 		}
 	}
-
-	
 }

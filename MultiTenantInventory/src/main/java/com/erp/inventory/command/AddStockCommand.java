@@ -1,4 +1,8 @@
-package com.erp.inventory.comand;
+package com.erp.inventory.command;
+// =======================================================
+
+// ADD STOCK COMMAND
+// =======================================================
 
 import com.erp.inventory.observer.BranchInventory;
 import com.erp.inventory.product.Product;
