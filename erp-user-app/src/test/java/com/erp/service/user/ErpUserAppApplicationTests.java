@@ -1,0 +1,13 @@
+package com.erp.service.user;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class ErpUserAppApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}

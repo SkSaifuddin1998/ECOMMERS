@@ -1,0 +1,60 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/user-appdb
+    username: postgres
+    password: Saifuddin@#1998
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+
+    hibernate:
+      ddl-auto: update
+
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+         issuer-uri: http://localhost:9090/realms/erp
+  
+server:
+  port: 9091
+  max-http-request-header-size: 1024KB
+
+
+keycloak:
+  host: http://localhost:9090
+  realm: erp
+
+  admin:
+    client-id: admin-cli
+    username: admin
+    password: Saifuddin@#2026
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    oauth:
+      use-pkce-with-authorization-code-grant: true
+      client-id: erp-web-client
+    oauth2-redirect-url: http://localhost:9091/swagger-ui/oauth2-redirect.html
+    operationsSorter: method
+    tagsSorter: alpha
+    tryItOutEnabled: true
+    filter: true
+  api-docs:
+    path: /v3/api-docs
+  oAuthFlow:
+    authorizationUrl:  http://localhost:9090/realms/erp/protocol/openid-connect/auth
+    tokenUrl:  http://localhost:9090/realms/erp/protocol/openid-connect/token	
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+
