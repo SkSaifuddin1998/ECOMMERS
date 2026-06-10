@@ -21,7 +21,19 @@ spring:
       resourceserver:
         jwt:
          issuer-uri: http://localhost:9090/realms/erp
-  
+      client:
+        provider:
+          keycloak:
+            token-uri: http://localhost:9090/realms/erp/protocol/openid-connect/token
+            authorization-uri: http://localhost:9090/realms/erp/protocol/openid-connect/auth
+            user-info-uri: http://localhost:9090/realms/erp/protocol/openid-connect/userinfo
+        registration:
+          keycloak:
+            client-id: erp-user-client
+            client-secret: NN3QXn6qP4qYAL3Dj61kuKVDM1cEyhFt
+            authorization-grant-type: client_credentials
+            provider: keycloak
+
 server:
   port: 9091
   max-http-request-header-size: 1024KB
